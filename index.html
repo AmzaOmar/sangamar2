@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hôtel Sangamar 2 - Vue sur l'Océan</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Lato:wght@300;400;700&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Lato', sans-serif;
+            min-height: 100vh;
+            background: linear-gradient(160deg, #0a1628 0%, #0d3b6e 40%, #1a6b8a 70%, #0d3b6e 100%);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: #ffffff;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* Vagues animées en arrière-plan */
+        body::before {
+            content: '';
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 200%;
+            height: 220px;
+            background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 220'%3E%3Cpath fill='rgba(0,150,200,0.18)' d='M0,128L60,117.3C120,107,240,85,360,96C480,107,600,149,720,154.7C840,160,960,128,1080,112C1200,96,1320,96,1380,96L1440,96L1440,320L1380,320C1320,320,1200,320,1080,320C960,320,840,320,720,320C600,320,480,320,360,320C240,320,120,320,60,320L0,320Z'/%3E%3C/svg%3E") repeat-x bottom;
+            animation: waveAnim 8s linear infinite;
+            z-index: 0;
+        }
+
+        body::after {
+            content: '';
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 200%;
+            height: 180px;
+            background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 180'%3E%3Cpath fill='rgba(0,180,230,0.12)' d='M0,64L80,85.3C160,107,320,149,480,154.7C640,160,800,128,960,112C1120,96,1280,96,1360,96L1440,96L1440,320L1360,320C1280,320,1120,320,960,320C800,320,640,320,480,320C320,320,160,320,80,320L0,320Z'/%3E%3C/svg%3E") repeat-x bottom;
+            animation: waveAnim2 12s linear infinite;
+            z-index: 0;
+        }
+
+        @keyframes waveAnim {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+
+        @keyframes waveAnim2 {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+
+        /* Étoiles/bulles flottantes */
+        .bubbles {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+            overflow: hidden;
+        }
+
+        .bubble {
+            position: absolute;
+            bottom: -80px;
+            border-radius: 50%;
+            background: rgba(100, 210, 255, 0.12);
+            border: 1px solid rgba(100, 210, 255, 0.25);
+            animation: floatBubble linear infinite;
+        }
+
+        @keyframes floatBubble {
+            0% { transform: translateY(0) scale(1); opacity: 0.7; }
+            80% { opacity: 0.3; }
+            100% { transform: translateY(-110vh) scale(1.2); opacity: 0; }
+        }
+
+        .container {
+            background: rgba(5, 25, 55, 0.75);
+            backdrop-filter: blur(14px);
+            border-radius: 20px;
+            padding: 3rem 2.5rem;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(100, 210, 255, 0.15);
+            max-width: 500px;
+            width: 90%;
+            position: relative;
+            z-index: 2;
+            border: 1.5px solid rgba(100, 210, 255, 0.3);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 2rem 0;
+        }
+
+        /* Badge étoiles */
+        .stars-badge {
+            display: flex;
+            gap: 4px;
+            margin-bottom: 0.5rem;
+        }
+
+        .stars-badge i {
+            color: #f9ca24;
+            font-size: 0.9rem;
+        }
+
+        /* Logo & titre */
+        .logo-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 1.8rem;
+        }
+
+        .logo-image {
+            max-width: 110px;
+            margin-bottom: 1rem;
+            border-radius: 50%;
+            border: 3px solid rgba(100, 210, 255, 0.6);
+            box-shadow: 0 0 30px rgba(0, 180, 230, 0.4);
+        }
+
+        .logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.2rem;
+            font-weight: 900;
+            background: linear-gradient(135deg, #74d7f7, #ffffff, #a8edff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-align: center;
+            letter-spacing: 2px;
+            line-height: 1.2;
+        }
+
+        .logo-sub {
+            font-family: 'Lato', sans-serif;
+            font-size: 0.8rem;
+            font-weight: 300;
+            letter-spacing: 5px;
+            text-transform: uppercase;
+            color: rgba(164, 220, 255, 0.8);
+            margin-top: 4px;
+        }
+
+        /* Divider vague */
+        .wave-divider {
+            width: 80%;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, rgba(100, 210, 255, 0.6), transparent);
+            margin: 1rem 0 1.5rem;
+            position: relative;
+        }
+
+        .wave-divider::after {
+            content: '⚓';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(5, 25, 55, 0.75);
+            padding: 0 10px;
+            color: rgba(100, 210, 255, 0.8);
+            font-size: 0.9rem;
+        }
+
+        /* Infos rapides */
+        .hotel-info {
+            display: flex;
+            gap: 1.5rem;
+            margin-bottom: 1.8rem;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .info-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.78rem;
+            color: rgba(164, 220, 255, 0.85);
+        }
+
+        .info-item i {
+            color: #64d2ff;
+            font-size: 0.85rem;
+        }
+
+        /* Liens réseaux sociaux */
+        .social-links {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 0.9rem;
+            margin-bottom: 1.8rem;
+        }
+
+        .social-link {
+            display: flex;
+            align-items: center;
+            background: rgba(255, 255, 255, 0.07);
+            padding: 14px 18px;
+            border-radius: 12px;
+            text-decoration: none;
+            color: #ffffff;
+            transition: all 0.35s ease;
+            position: relative;
+            overflow: hidden;
+            border: 1px solid rgba(100, 210, 255, 0.18);
+        }
+
+        .social-link::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(120deg, transparent, rgba(100, 210, 255, 0.15), transparent);
+            transition: all 0.5s ease;
+        }
+
+        .social-link:hover::before {
+            left: 100%;
+        }
+
+        .social-link:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0, 150, 200, 0.35);
+            border-color: rgba(100, 210, 255, 0.5);
+        }
+
+        .social-link i {
+            font-size: 1.4rem;
+            margin-right: 14px;
+            width: 28px;
+            text-align: center;
+        }
+
+        .social-link .platform {
+            flex-grow: 1;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            font-size: 0.85rem;
+        }
+
+        .social-link .arrow {
+            font-size: 0.8rem;
+            opacity: 0.5;
+            transition: all 0.3s;
+        }
+
+        .social-link:hover .arrow {
+            opacity: 1;
+            transform: translateX(4px);
+        }
+
+        .tiktok { background: linear-gradient(135deg, rgba(0,0,0,0.5), rgba(30,30,30,0.4)); }
+        .tiktok i { color: #69C9D0; }
+
+        .instagram { background: linear-gradient(135deg, rgba(64,93,230,0.3), rgba(193,53,132,0.3)); }
+        .instagram i { background: linear-gradient(45deg, #405DE6, #C13584, #FD1D1D); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+
+        .facebook { background: linear-gradient(135deg, rgba(59,89,152,0.4), rgba(59,89,152,0.2)); }
+        .facebook i { color: #4267B2; }
+
+        .website { background: linear-gradient(135deg, rgba(0,150,200,0.35), rgba(0,100,150,0.25)); }
+        .website i { color: #64d2ff; }
+
+        /* Section développeur */
+        .developer-section {
+            width: 100%;
+            margin-top: 0.5rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid rgba(100, 210, 255, 0.2);
+            text-align: center;
+        }
+
+        .developer-title {
+            font-family: 'Playfair Display', serif;
+            color: rgba(164, 220, 255, 0.9);
+            font-size: 0.7rem;
+            margin-bottom: 0.8rem;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+        }
+
+        .developer-info {
+            margin-bottom: 0.5rem;
+            font-size: 0.85rem;
+            line-height: 1.5;
+            color: rgba(255,255,255,0.75);
+        }
+
+        .developer-links {
+            display: flex;
+            justify-content: center;
+            gap: 0.8rem;
+            margin-top: 1rem;
+        }
+
+        .developer-link {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            background: rgba(100, 210, 255, 0.1);
+            border: 1px solid rgba(100, 210, 255, 0.25);
+            color: rgba(164, 220, 255, 0.8);
+            text-decoration: none;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+        }
+
+        .developer-link:hover {
+            transform: translateY(-4px);
+            background: rgba(100, 210, 255, 0.25);
+            border-color: rgba(100, 210, 255, 0.7);
+            color: #fff;
+            box-shadow: 0 5px 15px rgba(0, 150, 200, 0.3);
+        }
+
+        .signature {
+            font-style: italic;
+            font-size: 0.75rem;
+            margin-top: 0.8rem;
+            color: rgba(164, 220, 255, 0.45);
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 2rem 1.5rem;
+                width: 93%;
+            }
+
+            .logo {
+                font-size: 1.8rem;
+            }
+
+            .hotel-info {
+                gap: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Bulles flottantes -->
+    <div class="bubbles">
+        <div class="bubble" style="left:8%;width:18px;height:18px;animation-duration:9s;animation-delay:0s;"></div>
+        <div class="bubble" style="left:20%;width:10px;height:10px;animation-duration:12s;animation-delay:2s;"></div>
+        <div class="bubble" style="left:38%;width:24px;height:24px;animation-duration:15s;animation-delay:1s;"></div>
+        <div class="bubble" style="left:55%;width:14px;height:14px;animation-duration:10s;animation-delay:3s;"></div>
+        <div class="bubble" style="left:70%;width:20px;height:20px;animation-duration:13s;animation-delay:0.5s;"></div>
+        <div class="bubble" style="left:85%;width:8px;height:8px;animation-duration:11s;animation-delay:4s;"></div>
+        <div class="bubble" style="left:47%;width:12px;height:12px;animation-duration:14s;animation-delay:2.5s;"></div>
+    </div>
+
+    <div class="container">
+
+        <!-- Logo & nom de l'hôtel -->
+        <div class="logo-container">
+            <div class="stars-badge">
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+            </div>
+            <div class="logo">HÔTEL SANGAMAR 2</div>
+            <div class="logo-sub">Bord de l'Océan</div>
+        </div>
+
+        <!-- Infos rapides -->
+        <div class="hotel-info">
+            <div class="info-item">
+                <i class="fas fa-water"></i>
+                <span>Vue Océan</span>
+            </div>
+            <div class="info-item">
+                <i class="fas fa-umbrella-beach"></i>
+                <span>Accès Plage</span>
+            </div>
+            <div class="info-item">
+                <i class="fas fa-wifi"></i>
+                <span>Wi-Fi Gratuit</span>
+            </div>
+        </div>
+
+        <div class="wave-divider"></div>
+
+        <!-- Liens sociaux -->
+        <div class="social-links">
+            <a href="https://www.tiktok.com/@b_bfitness" class="social-link tiktok">
+                <i class="fab fa-tiktok"></i>
+                <span class="platform">TikTok</span>
+                <i class="fas fa-chevron-right arrow"></i>
+            </a>
+            <a href="https://www.instagram.com/b_and_b_fitness_club/?__d=11" class="social-link instagram">
+                <i class="fab fa-instagram"></i>
+                <span class="platform">Instagram</span>
+                <i class="fas fa-chevron-right arrow"></i>
+            </a>
+            <a href="https://www.facebook.com/2016niakhsangamar/?locale=fr_FR" class="social-link facebook">
+                <i class="fab fa-facebook"></i>
+                <span class="platform">Facebook</span>
+                <i class="fas fa-chevron-right arrow"></i>
+            </a>
+            <a href="#" class="social-link website">
+                <i class="fas fa-globe"></i>
+                <span class="platform">Réserver en ligne</span>
+                <i class="fas fa-chevron-right arrow"></i>
+            </a>
+        </div>
+
+        <!-- Section développeur -->
+        <div class="developer-section">
+            <h3 class="developer-title">Développé par</h3>
+            <p class="developer-info"><strong>TechPulse</strong> · +221 76 852 37 60</p>
+            <div class="developer-links">
+                <a href="mailto:amzaprod@gmail.com" class="developer-link" title="Email">
+                    <i class="fas fa-envelope"></i>
+                </a>
+                <a href="https://www.linkedin.com/in/cheikhna-ndiaye-6866b9289" class="developer-link" title="LinkedIn">
+                    <i class="fab fa-linkedin-in"></i>
+                </a>
+                <a href="https://www.instagram.com/amza7449/" class="developer-link" title="Instagram">
+                    <i class="fab fa-instagram"></i>
+                </a>
+            </div>
+            <p class="signature">Réalisé avec passion · 2025</p>
+        </div>
+
+    </div>
+</body>
+</html>
